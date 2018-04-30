@@ -1,11 +1,19 @@
 import random
-from scipy.special import expit # fast logistic function
-
+from scipy.special import expit  # fast logistic function
 
 class NeuralNetwork:
 
-    def __init__(self, size):
-        self.LEARNING_RATE = 0.5
+    def __init__(self, size, learning_rate=None, momentum=None):
+        if learning_rate:
+            self.LEARNING_RATE = learning_rate
+        else:
+            self.LEARNING_RATE = 0.1
+
+        if momentum:
+            self.momentum = momentum
+        else:
+            self.momentum = 0.0
+
         self.layers = []
         self.init_layers(size)
         self.init_weights(size)
@@ -17,6 +25,7 @@ class NeuralNetwork:
         for j in range(1, len(size)):
             for h in range(size[j]):
                 [self.layers[j-1].neurons[h].weights.append(random.random()) for _ in range(size[j-1])]
+                [self.layers[j-1].neurons[h].previous_delta.append(0.0) for _ in range(size[j-1])]
 
     def feed_forward(self, inputs):
         output = inputs
@@ -55,8 +64,14 @@ class NeuralNetwork:
             for o in range(len(self.layers[-i].neurons)):
                 for weight in range(len(self.layers[-i].neurons[o].weights)):
                     de_dw = self.layers_de_dz[-i][o] * self.layers[-i].neurons[o].dz_dw(weight)
-                    self.layers[-i].neurons[o].weights[weight] -= self.LEARNING_RATE * de_dw
-                self.layers[-i].neurons[o].bias -= self.LEARNING_RATE * self.layers_de_dz[-i][o]
+                    self.layers[-i].neurons[o].weights[weight] -= (
+                                self.LEARNING_RATE * de_dw + self.layers[-i].neurons[o].part_with_momentum(
+                            self.momentum, weight))
+                    self.layers[-i].neurons[o].previous_delta[weight] = de_dw
+                self.layers[-i].neurons[o].bias -= (
+                            self.LEARNING_RATE * self.layers_de_dz[-i][o] + self.layers[-i].neurons[o].momentum_bias(
+                        self.momentum))
+                self.layers[-i].neurons[o].previous_delta_bias = self.LEARNING_RATE * self.layers_de_dz[-i][o]
 
     def calculate_total_error(self, training_sets):
         total_error = 0
@@ -85,6 +100,8 @@ class Neuron:
     def __init__(self, bias):
         self.bias = bias
         self.weights = []
+        self.previous_delta = []
+        self.previous_delta_bias = 0.0
 
     def calculate_output(self, inputs):
         self.inputs = inputs
@@ -108,3 +125,9 @@ class Neuron:
 
     def dz_dw(self, index):
         return self.inputs[index]
+
+    def part_with_momentum(self, momentum, which_weight):
+        return self.previous_delta[which_weight] * momentum
+
+    def momentum_bias(self, momentum):
+        return self.previous_delta_bias * momentum

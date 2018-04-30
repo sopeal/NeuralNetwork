@@ -9,21 +9,26 @@ training_sets = [
     [[0, 0, 0, 1], [0, 0, 0, 1]]
 ]
 
-nn = NeuralNetwork([4, 2, 4])
-iterations = 10000
-history_errors = []
-for i in range(iterations):
-    training_inputs, training_outputs = random.choice(training_sets)
-    nn.train(training_inputs, training_outputs)
-    history_errors.append(nn.calculate_total_error(training_sets))
+def test_case(max_error, learning_rate, momentum):
+    nn = NeuralNetwork([4, 2, 4], learning_rate, momentum)
+    error = 5
+    history_errors = []
+    while error >= max_error:
+        training_inputs, training_outputs = random.choice(training_sets)
+        nn.train(training_inputs, training_outputs)
+        error = nn.calculate_total_error(training_sets)
+        history_errors.append(error)
+    print("Max error: ", max_error, " Learning rate: ", learning_rate, " Momentum: ", momentum," Number of iterations: ", len(history_errors))
+    plt.plot(history_errors)
+    plt.xlabel("Number of iterations.")
+    plt.ylabel("Total error.")
+    plt.title("History of total errors.")
+    plt.show()
 
-print(nn.feed_forward(training_sets[0][0]))
-print(nn.feed_forward(training_sets[1][0]))
-print(nn.feed_forward(training_sets[2][0]))
-print(nn.feed_forward(training_sets[3][0]))
 
-plt.plot(history_errors)
-plt.xlabel("Number of iterations.")
-plt.ylabel("Total error.")
-plt.title("History of total errors.")
-plt.show()
+test_case(0.03, 0.9, 0.0)
+test_case(0.03, 0.9, 0.6)
+test_case(0.03, 0.6, 0.0)
+test_case(0.03, 0.6, 0.9)
+test_case(0.03, 0.2, 0.0)
+test_case(0.03, 0.2, 0.9)
