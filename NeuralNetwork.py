@@ -11,14 +11,12 @@ class NeuralNetwork:
         self.init_weights(size)
 
     def init_layers(self, size):
-        for i in range(1, len(size)):
-            self.layers.append(NeuronLayer(size[i]))
+        self.layers = [NeuronLayer(layer_size) for layer_size in size[1:]]
 
     def init_weights(self, size):
         for j in range(1, len(size)):
             for h in range(size[j]):
-                for i in range(size[j-1]):
-                    self.layers[j-1].neurons[h].weights.append(random.random())
+                [self.layers[j-1].neurons[h].weights.append(random.random()) for _ in range(size[j-1])]
 
     def feed_forward(self, inputs):
         output = inputs
@@ -46,11 +44,9 @@ class NeuralNetwork:
         for i in range(2, len(self.layers) + 1):
             hidden_de_dz = [0] * len(self.layers[-i].neurons)
             for h in range(len(self.layers[-i].neurons)):
-
                 hidden_de_dy = 0
                 for o in range(len(self.layers[-i + 1].neurons)):
                     hidden_de_dy += self.layers_de_dz[-i + 1][o] * self.layers[-i + 1].neurons[o].weights[h]
-
                 hidden_de_dz[h] = hidden_de_dy * self.layers[-i].neurons[h].dy_dz()
             self.layers_de_dz[-i] = hidden_de_dz
 
@@ -75,18 +71,14 @@ class NeuralNetwork:
 class NeuronLayer:
     def __init__(self, num_neurons):
         self.bias = random.random()
+        self.neurons = []
         self.initialize_neurons(num_neurons)
 
     def initialize_neurons(self, num_neurons):
-        self.neurons = []
-        for i in range(num_neurons):
-            self.neurons.append(Neuron(self.bias))
+        [self.neurons.append(Neuron(self.bias)) for _ in range(num_neurons)]
 
     def feed_forward(self, inputs):
-        outputs = []
-        for neuron in self.neurons:
-            outputs.append(neuron.calculate_output(inputs))
-        return outputs
+        return [neuron.calculate_output(inputs) for neuron in self.neurons]
 
 
 class Neuron:
@@ -97,8 +89,8 @@ class Neuron:
     def calculate_output(self, inputs):
         self.inputs = inputs
         total = 0
-        for i in range(len(self.inputs)):
-            total += self.inputs[i] * self.weights[i]
+        for input, weight in zip(self.inputs, self.weights):
+            total += input * weight
         self.output = expit(total + self.bias)
         return self.output
 
