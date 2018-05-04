@@ -75,12 +75,21 @@ class NeuralNetwork:
 
     def calculate_total_error(self, training_sets):
         total_error = 0
+
         for t in range(len(training_sets)):
             training_inputs, training_outputs = training_sets[t]
             self.feed_forward(training_inputs)
             for o in range(len(training_outputs)):
                 total_error += self.layers[-1].neurons[o].error(training_outputs[o])
         return total_error
+
+    def calculate_cost(self, target):
+        cost = 0
+        for o in range(len(self.layers[-1].neurons)):
+            cost += self.layers[-1].neurons[o].error(target[o])
+        return cost
+
+
 
 
 class NeuronLayer:
