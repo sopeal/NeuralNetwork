@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import random
 from NeuralNetwork import NeuralNetwork
 from sklearn.datasets import load_iris
-from sklearn.utils import shuffle
 import numpy as np
 
 def normalize_data(data):
@@ -10,28 +9,23 @@ def normalize_data(data):
     return data / col_maxes[np.newaxis, :]
 
 iris = load_iris()
-iris = shuffle(iris)
 data = normalize_data(iris.data)
 data = data.tolist()
 target = iris.target.tolist()
 
-training_sets = []
-for i in range(100):
+proper_format = []
+for i in range(len(data)):
     tmp = [0, 0]
     tmp_target = [0, 0, 0]
     tmp_target[target[i]] = 1
     tmp[0] = data[i]
     tmp[1] = tmp_target
-    training_sets.append(tmp)
+    proper_format.append(tmp)
 
-test_sets = []
-for i in range(100, len(data)):
-    tmp = [0, 0]
-    tmp_target = [0, 0, 0]
-    tmp_target[target[i]] = 1
-    tmp[0] = data[i]
-    tmp[1] = tmp_target
-    test_sets.append(tmp)
+random.shuffle(proper_format)
+
+training_sets = proper_format[0:100].copy()
+test_sets = proper_format[100:len(proper_format)].copy()
 
 def test_case(iterations, size, learning_rate, momentum):
     nn = NeuralNetwork(size, learning_rate, momentum)
@@ -54,16 +48,28 @@ def test_case(iterations, size, learning_rate, momentum):
             accurate_outputs = accurate_outputs + 1.0
     test_rate = accurate_outputs / float(len(test_sets))
 
-    print(nn.feed_forward(training_sets[0][0]))
-    print(" Learning rate: ", learning_rate, " Momentum: ", momentum," Number of iterations: ", len(history_errors), "Test rate ", test_rate)
+    print("iterations = ", iterations, "size = ", size, "Learning rate: ", learning_rate, " Momentum: ", momentum,"Test rate ", test_rate)
     plt.plot(history_errors)
-    plt.xlabel("Number of iterations.")
+    plt.xlabel("History points.")
     plt.ylabel("Total error.")
     plt.title("History of total errors.")
     plt.show()
 
-test_case(10000, [4,2,3], 0.5, 0.0)
-test_case(10000, [4,7,3], 0.5, 0.0)
-test_case(10000, [4,12,3], 0.5, 0.0)
-test_case(10000, [4,20,3], 0.5, 0.0)
+print("Exp. 1 - various size.")
+test_case(1000, [4,2,3], 0.5, 0.0)
+test_case(1000, [4,7,3], 0.5, 0.0)
+test_case(1000, [4,12,3], 0.5, 0.0)
+test_case(1000, [4,20,3], 0.5, 0.0)
+
+print("Exp. 2 - various learning rate.")
+test_case(1000, [4,2,3], 0.2, 0.0)
+test_case(1000, [4,2,3], 0.4, 0.0)
+test_case(1000, [4,2,3], 0.6, 0.0)
+test_case(1000, [4,2,3], 0.8, 0.0)
+
+print("Exp. 3 - various momentum.")
+test_case(1000, [4,2,3], 0.2, 0.3)
+test_case(1000, [4,2,3], 0.2, 0.5)
+test_case(1000, [4,2,3], 0.2, 0.7)
+test_case(1000, [4,2,3], 0.2, 0.9)
 
