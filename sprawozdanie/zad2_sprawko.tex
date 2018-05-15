@@ -78,11 +78,12 @@ gdzie $b_i$ jest zmienianym biasem.
 Aplikacja została stworzona w języku Python3 przy użyciu dodatkowych modułów bibliotecznych takich jak:
 		\begin{itemize}
 			\item matplotlib - generowanie wykresów
-			\item sklearn - import wybranych zbiorów danych
+			\item sklearn - import wybranych zbiorów danych oraz algorytm KNN
+			\item urllib - pobranie wybranego zbioru danych nie zawartego w bibliotece sklearn
 		\end{itemize}
 
 \section{Materiały i metody}
-Analiza danych została przeprowadzona na zbiorze opisującym wina irysy \cite{irisdataset}
+Analiza danych została przeprowadzona na zbiorze opisującym wina irysy \cite{irisdataset} oraz nasiona \cite{seedsdataset}
 
 
 Eksperymenty 1 - 3 zostały przeprowadzone za pomocą sieci neuronowej dla zbioru Iris. Zasób treningowy liczył 100 losowych krotek, a reszta (40) została użyta do przetestowania klasyfikacji. Dla omawianych eksperymentów algorytm wykonywał 1000 iteracji.\\
@@ -177,6 +178,57 @@ Eksperymenty 4 - 6 zostały przeprowadzone za pomocą sieci neuronowej dla zbior
 			momentum = 0.5
 			\item \textbf{E6.3}
 			momentum = 0.9\\
+		\end{itemize}
+
+Eksperymenty 7 - 10 zostały przeprowadzone dla klasyfikatora KNearestNeighbours. Połowa zbioru jest danymi testowymi, druga połowa danymi testowanymi.
+
+\textbf{Eksperyment 7 - Zbiór irysów}\\
+		Wpływ ilosci sąsiadów na jakosć uczenia się.
+		\begin{itemize}
+			\item \textbf{E7.1}
+			 k = 5
+			\item \textbf{E7.2} 
+			k = 10
+			\item \textbf{E7.3}
+			k = 15
+			\item \textbf{E7.4}
+			k = 20\\
+		\end{itemize}
+
+	\textbf{Eksperyment 8 - Zbiór irysów}\\
+		Dokładnosć uczenia się na kllasyfikacji zbioru danych testowych - używanych przez algoytm do nauki. Zmienna liczba k.
+		\begin{itemize}
+			\item \textbf{E8.1}
+			 k = 5
+			\item \textbf{E8.2} 
+			k = 10
+			\item \textbf{E8.3}
+			k = 20
+			\item \textbf{E8.4}
+			k = 1
+		\end{itemize}
+
+	\textbf{Eksperyment 9 - Zbiór nasion}\\	
+		Dokładnosć uczenia się na kllasyfikacji zbioru danych testowych - używanych przez algoytm do nauki. Zmienna liczba k.
+		\begin{itemize}
+			\item \textbf{E9.1}
+			 k = 1
+			\item \textbf{E9.2} 
+			k = 5
+			\item \textbf{E9.3}
+			k = 10
+			\item \textbf{E9.4}
+			k = 20
+		\end{itemize}
+	\textbf{Eksperyment 10 - Zbiór nasion}\\	
+		Dokładnosć uczenia się dla różnych wag. Rozpatrywane są: równoważne, dystansowe.
+		\begin{itemize}
+			\item \textbf{E9.1}
+			k = 1
+			\item \textbf{E9.2} 
+			k = 20
+			\item \textbf{E9.3} 
+			k = 100
 		\end{itemize}
 
 \section{Wyniki}
@@ -321,16 +373,222 @@ Eksperymenty 4 - 6 zostały przeprowadzone za pomocą sieci neuronowej dla zbior
 			\end{minipage}
 		\end{figure}
 		\FloatBarrier
+	\subsection{Eksperyment 7}
+		\begin{figure}[H]
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_iris_7_1.png}
+				\caption{E7.1 accuracy = 98.65 \%}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_iris_7_2.png}
+				\caption{E7.2 accuracy = 91.89 \%}
+				\label{E7.2}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_iris_7_3.png}
+				\caption{E7.3 accuracy = 91.89 \%}
+				\label{E7.3}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_iris_7_4.png}
+				\caption{E7.4 accuracy = 93.24 \%}
+				\label{E7.4}
+			\end{minipage}
+		\end{figure}
+		\FloatBarrier
+	\subsection{Eksperyment 8}
+		\begin{figure}[H]
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_iris_8_1.png}
+				\caption{E8.1 accuracy = 97,33 \%}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_iris_8_2.png}
+				\caption{E8.1 accuracy = 97,33 \%}
+				\label{E8.1}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_iris_8_3.png}
+				\caption{E8.2 accuracy = 96.00 \%}
+				\label{E8.2}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_iris_8_4.png}
+				\caption{E8.2 accuracy = 96.00 \%}
+				\label{E8.2}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_iris_8_5.png}
+				\caption{E8.3 accuracy = 96.00 \%}
+				\label{E8.3}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_iris_8_6.png}
+				\caption{E8.3 accuracy = 96.00 \%}
+				\label{E8.3}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_iris_8_7.png}
+				\caption{E8.4 accuracy = 100.00 \%}
+				\label{E8.4}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_iris_8_8.png}
+				\caption{E8.4 accuracy = 100.00 \%}
+				\label{E8.4}
+			\end{minipage}
+		\end{figure}
+		\FloatBarrier
+	\subsection{Eksperyment 9}
+		\begin{figure}[H]
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_9_1.png}
+				\caption{E9.1 accuracy = 100.00 \%}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_9_2.png}
+				\caption{E9.1 accuracy = 100.00 \%}
+				\label{E9.1}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_9_3.png}
+				\caption{E9.2 accuracy = 95.24 \%}
+				\label{E9.2}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_9_4.png}
+				\caption{E9.2 accuracy = 95.24 \%}
+				\label{E9.2}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_9_5.png}
+				\caption{E9.3 accuracy = 93.33 \%}
+				\label{E9.3}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_9_6.png}
+				\caption{E9.3 accuracy = 93.33 \%}
+				\label{E9.3}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_9_7.png}
+				\caption{E9.4 accuracy = 95.24 \%}
+				\label{E9.4}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_9_8.png}
+				\caption{E9.4 accuracy = 95.24 \%}
+				\label{E9.4}
+			\end{minipage}
+		\end{figure}
+		\FloatBarrier
+	\subsection{Eksperyment 10}
+		\begin{figure}[H]
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_10_1.png}
+				\caption{E10.1 accuracy = 100.00 \%, Weight - uniform}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_10_2.png}
+				\caption{E10.1 accuracy = 100.00 \%, Weight - uniform}
+				\label{E10.1}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_10_3.png}
+				\caption{E10.1 accuracy = 100.00 \% Weight - distance}
+				\label{E10.1}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_10_4.png}
+				\caption{E10.1 accuracy = 100.00 \% Weight - distance}
+				\label{E10.1}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_10_5.png}
+				\caption{E10.2 accuracy = 93.33 \% Weight - uniform}
+				\label{E10.2}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_10_6.png}
+				\caption{E10.2 accuracy = 93.33 \% Weight - uniform}
+				\label{E10.2}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_10_7.png}
+				\caption{E10.2 accuracy = 100.00 \% Weight - distance}
+				\label{E10.2}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_10_8.png}
+				\caption{E10.2 accuracy = 100.00 \% Weight - distance}
+				\label{E10.2}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_10_9.png}
+				\caption{E10.3 accuracy = 38.10 \% Weight - uniform}
+				\label{E10.3}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_10_10.png}
+				\caption{E10.3 accuracy = 38.10 \% Weight - uniform}
+				\label{E10.3}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_10_11.png}
+				\caption{E10.3 accuracy = 100.00 \% Weight - distance}
+				\label{E10.3}
+			\end{minipage}
+			\begin{minipage}{0.5\linewidth}
+				\centering
+				\includegraphics[scale=0.25]{KNN_seed_10_12.png}
+				\caption{E10.3 accuracy = 100.00 \% Weight - distance}
+				\label{E10.3}
+			\end{minipage}
+		\end{figure}
+		\FloatBarrier
 			
 
 \section{Dyskusja}
-
+Algorytm KNN - W przeprowadzonych eksperymentach 7 - 10 zauważalnym jest, że na dokładnosć przeprowadzonych badań pozytywnego wpływu nie ma zwiększona ilosć sąsiadów. Drugim ważnym aspektem jest dobrana waga. Gdy wszystkie punkty zostaną potraktowane na równi, bład oscyluje od 0 do 100 \%, jednakże gdy przyjmiemy sąsiada najbliższego badanemu punktowi jako najważniejszego bład rzadko kiedy spada ponieżej 100 \%
 \section{Wnioski}
-
+Algorytm KNN jest algorytmem optymalnym przy wprowadzeniu wagi dla sąsiadów rozpatrywanego punktu.
 
 \begin{thebibliography}{0}
 \bibitem{irisdataset}https://archive.ics.uci.edu/ml/datasets/iris
 Zbiór danych dla irysów
+\bibitem{seedsdataset}https://archive.ics.uci.edu/ml/datasets/seeds
+Zbiór danych dla nasion
 \bibitem{backPopgation}https://mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/
 Back Propagation
 \end{thebibliography}
