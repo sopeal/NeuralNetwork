@@ -580,9 +580,24 @@ Eksperymenty 7 - 10 zostały przeprowadzone dla klasyfikatora KNearestNeighbours
 			
 
 \section{Dyskusja}
+W pierwszym eksperymencie pierwszym możemy zauważyć, iż dwa neurony w ukrytej warstwie daje tak samo dobry wynik jak 7 i 12 neuronów. Jednak przy 20 neuronach możemy zuważyć, że procesz uczenia jest znacznie wolniejszy. Dla tak wielu neurów błąd całkowity jest czterokrotnie większy oraz wyznaczył dwukrotnie mniej prawdziwych klas dla zbioru testowego.
+
+
+W eksperymentach 2 i 5 możemy zauważyć, iż wartość learning rate ma duże znaczenie na szubkość uczenia. W otrzymanych wynikach zuważamy, że im większa wartość tym większy krok uczenia, więc szybsze początkowe uczenie.
+
+
+W eksperymentach 3 i 6 obserwujemy wpływ momentum na szybkość uczenia. Wartość ta znacząco przyspiesza szybkość uczenia. Zbyt mała wartość nie daje różnicy w wyniku, jednak zbyt duża może prowadzić do wykonywania większych zmian na wagach niż pożądane.
+
+
+W eksperymencie 4 rozpatrujemy wpływ liczby iteracji na końcowy wynik. Otrzymane dane sugerują iż im więcej iteracji tym lepiej. Większa liczba iteracji powinna prowadzić do lepszych wyników w niemal każdym przypadku.
+
+
 Algorytm KNN - W przeprowadzonych eksperymentach 7 - 10 zauważalnym jest, że na dokładnosć przeprowadzonych badań pozytywnego wpływu nie ma zwiększona ilosć sąsiadów. Drugim ważnym aspektem jest dobrana waga. Gdy wszystkie punkty zostaną potraktowane na równi, bład oscyluje od 0 do 100 \%, jednakże gdy przyjmiemy sąsiada najbliższego badanemu punktowi jako najważniejszego bład rzadko kiedy spada ponieżej 100 \%
 \section{Wnioski}
 Algorytm KNN jest algorytmem optymalnym przy wprowadzeniu wagi dla sąsiadów rozpatrywanego punktu.
+
+
+Algorytm sieci neuronowej posiada wiele parametrów, które należy brać pod uwagę. Moim zdaniem z łatwością możemy wyznaczyć domyślne wartości parametrów learning rate oraz momentum. Jednak dla liczby neuronów i iteracji użytkownik algorytmu musi dobierać z większą uwagą.
 
 \begin{thebibliography}{0}
 \bibitem{irisdataset}https://archive.ics.uci.edu/ml/datasets/iris
